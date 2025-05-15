@@ -28,6 +28,29 @@ void handleSteviloMest() {
     server.send(200, "application/json", buf);
 }
 
+// New handler to update the "text iz weba" label from a web POST request
+void handleUpdateText() {
+    if (!server.hasArg("plain")) {
+        server.send(400, "application/json", "{\"error\":\"No body provided\"}");
+        return;
+    }
+    String body = server.arg("plain");
+    DynamicJsonDocument doc(200);
+    DeserializationError error = deserializeJson(doc, body);
+    if (error) {
+        server.send(400, "application/json", "{\"error\":\"Invalid JSON\"}");
+        return;
+    }
+    const char *newText = doc["text"];
+    if (newText == nullptr) {
+        server.send(400, "application/json", "{\"error\":\"Missing text field\"}");
+        return;
+    }
+    // Update the LVGL label with the new text received
+    lv_label_set_text(objects.text_iz_weba, newText);
+    server.send(200, "application/json", "{\"status\":\"Text updated\"}");
+}
+
 /* Function to handle the root URL */
 void handleRoot() {
     File file = SPIFFS.open("/index.html", "r");
@@ -101,8 +124,9 @@ void setup() {
     }
 
     server.on("/", HTTP_GET, handleRoot);
-    // Register the new endpoint here:
     server.on("/stevilo_mest", HTTP_GET, handleSteviloMest);
+    // Register the new endpoint to update text from the web
+    server.on("/update_text", HTTP_POST, handleUpdateText);
     server.begin();
     Serial.println("HTTP server started");
 

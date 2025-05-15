@@ -273,6 +273,18 @@ void create_screen_garaza() {
             }
         }
         {
+            // text iz weba
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.text_iz_weba = obj;
+            lv_obj_set_pos(obj, 70, 100);
+            lv_obj_set_size(obj, 180, 40);
+            lv_label_set_text(obj, "Stevilo vozil v garaži:");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xff000000),
+                                        LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER,
+                                        LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
             // gumba
             lv_obj_t *obj = lv_spangroup_create(parent_obj);
             objects.gumba = obj;

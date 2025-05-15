@@ -31,6 +31,7 @@ extern "C"
         lv_obj_t *gumba;
         lv_obj_t *vn_gumb;
         lv_obj_t *not_gumb;
+        lv_obj_t *text_iz_weba;
     } objects_t;
 
     extern objects_t objects;

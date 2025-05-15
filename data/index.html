@@ -7,6 +7,10 @@
     </head>
     <body>
         <h1>Stevilo mest: <span id="stevilo_mest">--</span></h1>
+        <form id="textForm">
+            <input type="text" id="inputText" placeholder="Enter new text" />
+            <button type="submit">Update Text</button>
+        </form>
         <script>
             function fetchSteviloMest() {
                 fetch("/stevilo_mest")
@@ -17,9 +21,27 @@
                     })
                     .catch((err) => console.error(err));
             }
-            // Fetch initial value and update every second
+
             fetchSteviloMest();
             setInterval(fetchSteviloMest, 100);
+
+            // Submit new text via POST
+            document
+                .getElementById("textForm")
+                .addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const text = document.getElementById("inputText").value;
+                    fetch("/update_text", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ text: text }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log(data);
+                        })
+                        .catch((err) => console.error(err));
+                });
         </script>
     </body>
 </html>
