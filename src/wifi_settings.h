@@ -1,8 +1,8 @@
 #include "Arduino.h"
+#include "Preferences.h"
+#include "ui/ui.h"
 #include <WiFi.h>
 #include <lvgl.h>
-#include "ui/ui.h"
-#include "Preferences.h"
 
 char wifi_ssid[32];
 char wifi_password[32];
@@ -31,14 +31,17 @@ void wifi_setup() {
         strncpy(wifi_ssid, "HOT VIRUS", sizeof(wifi_ssid));
         strncpy(wifi_password, "11423299", sizeof(wifi_password));
     } else {
-        Serial.printf("WiFi credentials found in preferences: %s, %s\n", wifi_ssid, wifi_password);
+        Serial.printf("WiFi credentials found in preferences: %s, %s\n", wifi_ssid,
+                      wifi_password);
     }
     NastavitveWiFi.end();
-    // nastavitve v uporabniškem vmesniku popravimo potem, ko bomo klicali ui_init()
+    // nastavitve v uporabniškem vmesniku popravimo potem, ko bomo klicali
+    // ui_init()
 
     // poveži se na WiFi
     WiFi.begin(wifi_ssid, wifi_password);
-    Serial.printf("Connecting to WiFi SSID: %s with password %s\n", wifi_ssid, wifi_password);
+    Serial.printf("Connecting to WiFi SSID: %s with password %s\n", wifi_ssid,
+                  wifi_password);
 
     Serial.println("WiFi setup done");
     Serial.print("Connecting to WiFi...");
@@ -46,5 +49,6 @@ void wifi_setup() {
         delay(1000);
         Serial.print(".");
     }
-    Serial.printf("Connected to WiFi\nIP address: %s\n", WiFi.localIP().toString().c_str());
+    Serial.println("Connected to WiFi IP address:");
+    Serial.println(WiFi.localIP());
 }

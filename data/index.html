@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ESP32 Control Panel</title>
+    </head>
+    <body>
+        <h1>Stevilo mest: <span id="stevilo_mest">--</span></h1>
+        <script>
+            function fetchSteviloMest() {
+                fetch("/stevilo_mest")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        document.getElementById("stevilo_mest").innerText =
+                            data.stevilo_mest;
+                    })
+                    .catch((err) => console.error(err));
+            }
+            // Fetch initial value and update every second
+            fetchSteviloMest();
+            setInterval(fetchSteviloMest, 100);
+        </script>
+    </body>
+</html>
