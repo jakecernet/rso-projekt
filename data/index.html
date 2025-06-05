@@ -66,7 +66,6 @@
             <button type="submit">Update Text</button>
         </form>
         <script>
-            // Function to fetch the current stevilo_mest (existing functionality)
             function fetchSteviloMest() {
                 fetch("/stevilo_mest")
                     .then((response) => response.json())
@@ -79,7 +78,6 @@
             fetchSteviloMest();
             setInterval(fetchSteviloMest, 100);
 
-            // Send slider changes to the ESP32 (update from web)
             document
                 .getElementById("slider")
                 .addEventListener("change", function () {
@@ -96,7 +94,6 @@
                         .catch((err) => console.error(err));
                 });
 
-            // Poll the slider value from the ESP32 to keep the web slider in sync
             function fetchSliderValue() {
                 fetch("/slider_value")
                     .then((response) => response.json())
@@ -110,7 +107,6 @@
             }
             setInterval(fetchSliderValue, 100);
 
-            // Submit new text via POST (existing functionality)
             document
                 .getElementById("textForm")
                 .addEventListener("submit", function (e) {

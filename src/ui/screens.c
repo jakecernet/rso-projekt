@@ -9,7 +9,6 @@
 #include "ui.h"
 #include "vars.h"
 
-// Forward declaration for slider_event_cb
 static void slider_event_cb(lv_event_t *e);
 
 objects_t objects;
@@ -18,7 +17,6 @@ uint32_t active_theme_index = 0;
 
 int stevilo_mest = 60;
 
-// Add a global pointer for the physical slider
 lv_obj_t *physical_slider_obj = NULL;
 
 void create_screen_main() {
@@ -320,9 +318,20 @@ void create_screen_garaza() {
             // slider value display
             lv_obj_t *obj = lv_label_create(parent_obj);
             tick_value_change_obj = obj;
-            lv_obj_set_pos(obj, 43, 210);
+            lv_obj_set_pos(obj, 150, 120);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "25");
+            lv_obj_set_style_text_color(obj, lv_color_hex(0x000), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+
+        {
+            // text_iz_weba
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.text_iz_weba = obj;
+            lv_obj_set_pos(obj, 10, 10);
+            lv_obj_set_size(obj, 300, 20);
+            lv_label_set_text(obj, "Text iz weba bo tukaj");
             lv_obj_set_style_text_color(obj, lv_color_hex(0x000), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
         }

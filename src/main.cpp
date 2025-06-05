@@ -18,13 +18,12 @@ void set_slider_value(int value);
 // #define TFT_HOR_RES 240
 // #define TFT_VER_RES 320
 
-// Add this declaration to reference the external variable
 extern int stevilo_mest;
-extern lv_obj_t *physical_slider_obj; // Forward declaration from screens.c
+extern lv_obj_t *physical_slider_obj;
 
-WebServer server(80); // Web server on port 80
+WebServer server(80); 
 
-void handleRoot(); // Function to handle root URL
+void handleRoot(); 
 
 // New handler to return the current stevilo_mest value as JSON
 void handleSteviloMest() {
@@ -56,7 +55,6 @@ void handleUpdateText() {
     server.send(200, "application/json", "{\"status\":\"Text updated\"}");
 }
 
-// Handler to update the physical slider from web POST request
 void handleUpdateSlider() {
     if (!server.hasArg("plain")) {
         server.send(400, "application/json", "{\"error\":\"No body provided\"}");
@@ -74,7 +72,6 @@ void handleUpdateSlider() {
     server.send(200, "application/json", "{\"status\":\"Slider updated\"}");
 }
 
-// Handler to get the current slider value as JSON
 void handleGetSliderValue() {
     int currentValue = physical_slider_obj ? lv_slider_get_value(physical_slider_obj) : 25;
     DynamicJsonDocument doc(200);
@@ -158,7 +155,6 @@ void setup() {
 
     server.on("/", HTTP_GET, handleRoot);
     server.on("/stevilo_mest", HTTP_GET, handleSteviloMest);
-    // Register the new endpoint to update text from the web
     server.on("/update_text", HTTP_POST, handleUpdateText);
     server.on("/update_slider", HTTP_POST, handleUpdateSlider);
     server.on("/slider_value", HTTP_GET, handleGetSliderValue);

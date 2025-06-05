@@ -57,7 +57,6 @@ void tick_screen(int screen_index);
 
 void create_screens();
 
-
 #ifdef __cplusplus
 }
 #endif
