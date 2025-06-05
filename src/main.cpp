@@ -1,3 +1,7 @@
+extern "C" {
+void set_slider_value(int value);
+}
+
 #include "setup_ntp_time.h"
 #include "touch_display.h"
 #include "ui/ui.h"
@@ -16,6 +20,7 @@
 
 // Add this declaration to reference the external variable
 extern int stevilo_mest;
+extern lv_obj_t *physical_slider_obj; // Forward declaration from screens.c
 
 WebServer server(80); // Web server on port 80
 
@@ -49,6 +54,34 @@ void handleUpdateText() {
     // Update the LVGL label with the new text received
     lv_label_set_text(objects.text_iz_weba, newText);
     server.send(200, "application/json", "{\"status\":\"Text updated\"}");
+}
+
+// Handler to update the physical slider from web POST request
+void handleUpdateSlider() {
+    if (!server.hasArg("plain")) {
+        server.send(400, "application/json", "{\"error\":\"No body provided\"}");
+        return;
+    }
+    String body = server.arg("plain");
+    DynamicJsonDocument doc(200);
+    DeserializationError error = deserializeJson(doc, body);
+    if (error) {
+        server.send(400, "application/json", "{\"error\":\"Invalid JSON\"}");
+        return;
+    }
+    int newValue = doc["sliderValue"];
+    set_slider_value(newValue);
+    server.send(200, "application/json", "{\"status\":\"Slider updated\"}");
+}
+
+// Handler to get the current slider value as JSON
+void handleGetSliderValue() {
+    int currentValue = physical_slider_obj ? lv_slider_get_value(physical_slider_obj) : 25;
+    DynamicJsonDocument doc(200);
+    doc["sliderValue"] = currentValue;
+    String json;
+    serializeJson(doc, json);
+    server.send(200, "application/json", json);
 }
 
 /* Function to handle the root URL */
@@ -127,6 +160,8 @@ void setup() {
     server.on("/stevilo_mest", HTTP_GET, handleSteviloMest);
     // Register the new endpoint to update text from the web
     server.on("/update_text", HTTP_POST, handleUpdateText);
+    server.on("/update_slider", HTTP_POST, handleUpdateSlider);
+    server.on("/slider_value", HTTP_GET, handleGetSliderValue);
     server.begin();
     Serial.println("HTTP server started");
 

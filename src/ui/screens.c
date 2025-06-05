@@ -18,6 +18,9 @@ uint32_t active_theme_index = 0;
 
 int stevilo_mest = 60;
 
+// Add a global pointer for the physical slider
+lv_obj_t *physical_slider_obj = NULL;
+
 void create_screen_main() {
     lv_obj_t *obj = lv_obj_create(0);
     objects.main = obj;
@@ -307,6 +310,7 @@ void create_screen_garaza() {
         {
             // slider
             lv_obj_t *obj = lv_slider_create(parent_obj);
+            physical_slider_obj = obj;
             lv_obj_set_pos(obj, 43, 178);
             lv_obj_set_size(obj, 235, 24);
             lv_slider_set_value(obj, 25, LV_ANIM_OFF);
@@ -350,6 +354,15 @@ void decrement_stevilo_mest_cb(lv_event_t *e) {
 static void slider_event_cb(lv_event_t *e) {
     lv_obj_t *slider = lv_event_get_target(e);
     int value = lv_slider_get_value(slider);
+    char buf[10];
+    snprintf(buf, sizeof(buf), "%d", value);
+    lv_label_set_text(tick_value_change_obj, buf);
+}
+
+void set_slider_value(int value) {
+    if (physical_slider_obj) {
+        lv_slider_set_value(physical_slider_obj, value, LV_ANIM_OFF);
+    }
     char buf[10];
     snprintf(buf, sizeof(buf), "%d", value);
     lv_label_set_text(tick_value_change_obj, buf);
