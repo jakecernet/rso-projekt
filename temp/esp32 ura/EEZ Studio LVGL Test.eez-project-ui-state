@@ -1035,7 +1035,9 @@
       }
     },
     "[EEZ Studio LVGL Test.eez-project]:/userPages/2[flow-state]": {
-      "selection": {},
+      "selection": {
+        "0": {}
+      },
       "transform": {
         "translate": {
           "x": -160,

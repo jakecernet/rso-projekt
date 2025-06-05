@@ -4,41 +4,63 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ESP32 Control Panel</title>
-		<style>
-			body {
-				font-family: Arial, sans-serif;
-				background-color: #f4f4f4;
-				color: #333;
-				margin: 0;
-				padding: 20px;
-			}
-			h1 {
-				color: #333;
-			}
-			form {
-				margin-top: 20px;
-			}
-			input[type="text"] {
-				padding: 10px;
-				width: 300px;
-				border: 1px solid #ccc;
-				border-radius: 5px;
-			}
-			button {
-				padding: 10px 15px;
-				background-color: #28a745;
-				color: white;
-				border: none;
-				border-radius: 5px;
-				cursor: pointer;
-			}
-			button:hover {
-				background-color: #218838;
-			}
-		</style>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                color: #333;
+                margin: 0;
+                padding: 20px;
+            }
+            h1,
+            h2 {
+                color: #333;
+            }
+            form {
+                margin-top: 20px;
+            }
+            input[type="text"] {
+                padding: 10px;
+                width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button {
+                padding: 10px 15px;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #218838;
+            }
+            #sliderContainer {
+                margin-top: 20px;
+            }
+            input[type="range"] {
+                width: 300px;
+            }
+        </style>
     </head>
     <body>
         <h1>Stevilo mest: <span id="stevilo_mest">--</span></h1>
+
+        <!-- Slider Section -->
+        <h2>Slider Control</h2>
+        <div id="sliderContainer">
+            <input
+                type="range"
+                id="slider"
+                min="0"
+                max="100"
+                value="25"
+                oninput="document.getElementById('sliderValue').innerText = this.value"
+            />
+            <p>Slider value: <span id="sliderValue">25</span></p>
+        </div>
+
         <form id="textForm">
             <input type="text" id="inputText" placeholder="Enter new text" />
             <button type="submit">Update Text</button>
