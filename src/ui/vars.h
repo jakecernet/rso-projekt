@@ -20,9 +20,6 @@ enum FlowGlobalVariables {
 
 // Native global variables
 
-extern int32_t get_var_ui_hand();
-extern void set_var_ui_hand(int32_t value);
-
 
 #ifdef __cplusplus
 }
